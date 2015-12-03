@@ -3,8 +3,6 @@ package svc
 import (
 	"github.com/arteev/zbarnet/logger"
 	"github.com/kardianos/service"
-
-	"log"
 )
 
 type program struct {
@@ -19,7 +17,6 @@ func (p *program) Start(s service.Service) error {
 		logger.Info.Println("Running under service manager.")
 	}
 	p.exit = make(chan struct{})
-	log.Println("LOG START")
 	go p.Run()
 	return nil
 }

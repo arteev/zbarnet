@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"github.com/arteev/zbarnet/barcode"
+	"fmt"
+	"os/user"
 )
 
 // Type of sources
@@ -28,7 +30,7 @@ var (
 	ErrEmptyHTTPKeyHdr   = errors.New("Config error: empty apikey but use request header authorization")
 )
 
-const defaultConfig = "config.json"
+const defaultConfig = ".zbarnet.json"
 
 //Pre defined of the http methods
 const (
@@ -40,7 +42,7 @@ const (
 //A HTTPMethod type request on server
 type HTTPMethod string
 
-//A Config it setting of application from config.json
+//A Config it setting of application from .zbarnet.json
 type Config struct {
 	Source string
 	Output string
@@ -70,10 +72,16 @@ type http struct {
 func MustConfig(path string) *Config {
 	if path == "" {
 		path = defaultConfig
-	}
-
-	if _, e := os.Stat(path); e != nil && os.IsNotExist(e) {
-		path = filepath.Join(filepath.Dir(os.Args[0]), defaultConfig)
+		if _, e := os.Stat(path); e != nil && os.IsNotExist(e) {
+			cd,_:=filepath.Abs(filepath.Dir(os.Args[0]))
+			path = filepath.Join(cd, defaultConfig)
+		}
+		if _, e := os.Stat(path); e != nil && os.IsNotExist(e) {
+			u,e:=user.Current();
+			if e==nil {
+				path = filepath.Join(u.HomeDir, defaultConfig)
+			}
+		}
 	}
 	data, e := ioutil.ReadFile(path)
 	if e != nil {

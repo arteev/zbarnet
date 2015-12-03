@@ -9,6 +9,7 @@ import (
 
 //TODO: write barcode to pipe out
 //TODO: Optional Raw format without base64
+//TODO: global flag: use config file
 
 func main() {
 	defer func() {

@@ -91,9 +91,7 @@ func stringInSlice(str string, list []string) bool {
 
 func (a *Application) defineActions() *Application {
 	a.cli.Action = func(c *cli.Context) {
-		fmt.Println("Action")
 		if c.Bool("start") || c.Bool("s") {
-			log.Println("start...")
 			logger.Error = log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
 			if !service.Interactive() &&
 				a.cfg.HTTP.Enabled &&
@@ -103,6 +101,7 @@ func (a *Application) defineActions() *Application {
 			}
 			a.logerror(a.svc.Run())
 		} else {
+			fmt.Printf("Hit Ctrl+C to [EXIT]\n")
 			a.dowork()
 			a.Wait()
 		}
@@ -196,9 +195,7 @@ func (a *Application) processBarCode(bc *barcode.BarCode) {
 }
 
 func (a *Application) dowork() {
-	fmt.Printf("Hit Ctrl+C to [EXIT]\n")
 	a.terminated = false
-
 	chb := make(chan barcode.BarCode)
 	a.done = make(chan bool)
 	a.chanKillZBar = make(chan bool)
