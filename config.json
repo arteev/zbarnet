@@ -1,0 +1,21 @@
+{
+	"source": "zbar",
+  	"output": "json",
+  	"once":	false,
+	"zbar": {
+		"enabled": true,
+		"location": "/usr/bin/zbarcam",		
+		"device": "/dev/video0",
+		"args": [
+		  "-q",
+		  "--xml"
+		]
+	},
+	"http": {
+	  "enabled": true,
+	  "url": "http://httpbin.org/post?barcode=${barCode}&type=${barCodeType}&quality=${quality}&api=${apikey}",
+	  "method": "POST",
+	  "apikey": "THIS_IS_API_KEY",
+	  "apikeyhdr": true
+	}
+}
