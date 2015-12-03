@@ -3,6 +3,7 @@ go:
  - 1.5
  - release
  - tip
- script:
+
+script:
   - go test -v ./...
   - go build
