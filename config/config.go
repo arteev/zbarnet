@@ -5,12 +5,11 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
 
 	"github.com/arteev/zbarnet/barcode"
-	"fmt"
-	"os/user"
 )
 
 // Type of sources
@@ -73,12 +72,12 @@ func MustConfig(path string) *Config {
 	if path == "" {
 		path = defaultConfig
 		if _, e := os.Stat(path); e != nil && os.IsNotExist(e) {
-			cd,_:=filepath.Abs(filepath.Dir(os.Args[0]))
+			cd, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 			path = filepath.Join(cd, defaultConfig)
 		}
 		if _, e := os.Stat(path); e != nil && os.IsNotExist(e) {
-			u,e:=user.Current();
-			if e==nil {
+			u, e := user.Current()
+			if e == nil {
 				path = filepath.Join(u.HomeDir, defaultConfig)
 			}
 		}
@@ -142,9 +141,9 @@ func parse(data []byte) (*Config, error) {
 	if err := json.Unmarshal(data, &str); err != nil {
 		return nil, err
 	}
-	result.Source = valuedef(str["source"],"zbar").(string)
-	result.Output = valuedef(str["output"],"").(string)
-	result.Once = valuedef(str["once"],false).(bool)
+	result.Source = valuedef(str["source"], "zbar").(string)
+	result.Output = valuedef(str["output"], "").(string)
+	result.Once = valuedef(str["once"], false).(bool)
 
 	result.ZBar = &zbarconfig{}
 	if result.Source == SourceZBar {
