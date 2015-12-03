@@ -18,7 +18,7 @@ Welcome to ZBarNet, a wrapper over zbarcam ([ZBar](http://zbar.sourceforge.net/)
 
 - [Installation](#installation)
 - [Quick start](#quick-start)
-- [Service/daemon](#service/daemon)
+- [Service/daemon](#servicedaemon)
 - [Configure](#configure)
 
 Installation
